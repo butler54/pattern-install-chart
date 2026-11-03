@@ -28,8 +28,15 @@ data:
   gitops.customHealthChecks: |
 {{ .Values.main.gitops.customHealthChecks | indent 4 }}
   {{- end }}
+  {{- if .Values.main.gitops.sourceNamespace }}
+  gitops.sourceNamespace: {{ .Values.main.gitops.sourceNamespace }}
+  {{- end }}
+  {{- if .Values.main.gitops.installApprovalPlan }}
+  gitops.installApprovalPlan: {{ .Values.main.gitops.installApprovalPlan }}
+  {{- end }}
+  {{- if .Values.main.gitops.csv }}
+  gitops.csv: {{ .Values.main.gitops.csv }}
+  {{- end }}
 
-  # gitops.sourceNamespace: GitOpsDefaultCatalogSourceNamespace
-  # gitops.installApprovalPlan: GitOpsDefaultApprovalPlan
   # gitops.ManualSync: GitOpsDefaultManualSync
   # gitops.name: GitOpsDefaultPackageName

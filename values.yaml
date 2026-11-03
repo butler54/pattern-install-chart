@@ -44,6 +44,15 @@ main:
     # string. Appended to the operator's built-in checks (PVC, Subscription,
     # and Application when applicationHealthCheckEnabled is true).
     customHealthChecks: ""
+    # -- Namespace of the catalog source the gitops operator is installed
+    # from. Defaults to the operator's own default (openshift-marketplace).
+    sourceNamespace: ""
+    # -- Install plan approval mode for the gitops operator subscription
+    # (Automatic or Manual). Defaults to the operator's own default.
+    installApprovalPlan: ""
+    # -- Starting CSV for the gitops operator install. Defaults to the
+    # operator's own default.
+    csv: ""
 
   # -- Settings related to the in-cluster gitea installation
   gitea:

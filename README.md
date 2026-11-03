@@ -39,7 +39,10 @@ This chart is used by the Validated Patterns installation script that can be fou
 | main.gitops.channel | string | `"gitops-1.21"` | Default channel to install the gitops operator from |
 | main.gitops.customArgoYaml | string | `""` | Arbitrary ArgoCD .spec YAML to deep-merge into the operator-built ArgoCD CR. Allows customizing any part of the ArgoCD spec without requiring individual config keys. |
 | main.gitops.customHealthChecks | string | `""` | Additional resource health checks for the ArgoCD CR, as a YAML list string. Appended to the operator's built-in checks (PVC, Subscription, and Application when applicationHealthCheckEnabled is true). |
+| main.gitops.csv | string | `""` | Starting CSV for the gitops operator install. Defaults to the operator's own default. |
+| main.gitops.installApprovalPlan | string | `""` | Install plan approval mode for the gitops operator subscription (Automatic or Manual). Defaults to the operator's own default. |
 | main.gitops.operatorSource | string | `"redhat-operators"` | Source to be used to install the gitops operator from |
+| main.gitops.sourceNamespace | string | `""` | Namespace of the catalog source the gitops operator is installed from. Defaults to the operator's own default (openshift-marketplace). |
 | main.multiSourceConfig.clusterGroupChartVersion | string | `nil` | The clustergroup chart version to be used when deploying a pattern (defaults to 0.8.*) |
 | main.multiSourceConfig.enabled | bool | `false` | Enables a multisource configuration for the clustergroup chart |
 | main.multiSourceConfig.helmRepoUrl | string | `nil` | The URL of the VP helm charts repository (defaults to https://charts.validatedpatterns.io) |

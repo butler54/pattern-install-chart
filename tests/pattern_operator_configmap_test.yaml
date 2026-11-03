@@ -137,6 +137,51 @@ tests:
       - exists:
           path: data["gitops.customHealthChecks"]
 
+  - it: Should not include gitops.sourceNamespace by default
+    asserts:
+      - notExists:
+          path: data["gitops.sourceNamespace"]
+
+  - it: Should set gitops.sourceNamespace
+    set:
+      main:
+        gitops:
+          sourceNamespace: openshift-marketplace
+    asserts:
+      - equal:
+          path: data["gitops.sourceNamespace"]
+          value: openshift-marketplace
+
+  - it: Should not include gitops.installApprovalPlan by default
+    asserts:
+      - notExists:
+          path: data["gitops.installApprovalPlan"]
+
+  - it: Should set gitops.installApprovalPlan
+    set:
+      main:
+        gitops:
+          installApprovalPlan: Manual
+    asserts:
+      - equal:
+          path: data["gitops.installApprovalPlan"]
+          value: Manual
+
+  - it: Should not include gitops.csv by default
+    asserts:
+      - notExists:
+          path: data["gitops.csv"]
+
+  - it: Should set gitops.csv
+    set:
+      main:
+        gitops:
+          csv: openshift-gitops-operator.v1.22.0
+    asserts:
+      - equal:
+          path: data["gitops.csv"]
+          value: openshift-gitops-operator.v1.22.0
+
   - it: Should set gitea parameters
     set:
       main:
