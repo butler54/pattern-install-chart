@@ -102,6 +102,41 @@ tests:
       - exists:
           path: data["gitops.customArgoYaml"]
 
+  - it: Should not include gitops.applicationHealthCheckEnabled by default
+    asserts:
+      - notExists:
+          path: data["gitops.applicationHealthCheckEnabled"]
+
+  - it: Should set gitops.applicationHealthCheckEnabled as a string
+    set:
+      main:
+        gitops:
+          applicationHealthCheckEnabled: "true"
+    asserts:
+      - equal:
+          path: data["gitops.applicationHealthCheckEnabled"]
+          value: "true"
+
+  - it: Should not include gitops.customHealthChecks by default
+    asserts:
+      - notExists:
+          path: data["gitops.customHealthChecks"]
+
+  - it: Should set gitops.customHealthChecks
+    set:
+      main:
+        gitops:
+          customHealthChecks: |
+            - group: example.com
+              kind: MyKind
+              check: |
+                hs = {}
+                hs.status = "Healthy"
+                return hs
+    asserts:
+      - exists:
+          path: data["gitops.customHealthChecks"]
+
   - it: Should set gitea parameters
     set:
       main:

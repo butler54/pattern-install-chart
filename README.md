@@ -34,9 +34,11 @@ This chart is used by the Validated Patterns installation script that can be fou
 | main.gitea.helmRepoUrl | string | `"https://charts.validatedpatterns.io/"` | Helm Repository URL for the gitea chart |
 | main.gitops | object | depends on the individual settings | Settings related to the gitops operator |
 | main.gitops.additionalArgoAdmins | string | `""` | Comma-separated list of additional ArgoCD admin groups. Only used when argoRBAC is not set. |
+| main.gitops.applicationHealthCheckEnabled | string | `""` | Set to "true" to have the patterns operator restore the ArgoCD Application resource health check (dropped in ArgoCD 1.8). Required for app-of-apps sync-wave ordering: without it the root Application treats child Applications as healthy and applies all waves at once. The operator defaults this to false, so it must be set explicitly. |
 | main.gitops.argoRBAC | string | `""` | Full ArgoCD RBAC spec as a YAML string. When set, it completely overrides the default RBAC policy and additionalArgoAdmins is ignored. |
 | main.gitops.channel | string | `"gitops-1.21"` | Default channel to install the gitops operator from |
 | main.gitops.customArgoYaml | string | `""` | Arbitrary ArgoCD .spec YAML to deep-merge into the operator-built ArgoCD CR. Allows customizing any part of the ArgoCD spec without requiring individual config keys. |
+| main.gitops.customHealthChecks | string | `""` | Additional resource health checks for the ArgoCD CR, as a YAML list string. Appended to the operator's built-in checks (PVC, Subscription, and Application when applicationHealthCheckEnabled is true). |
 | main.gitops.operatorSource | string | `"redhat-operators"` | Source to be used to install the gitops operator from |
 | main.multiSourceConfig.clusterGroupChartVersion | string | `nil` | The clustergroup chart version to be used when deploying a pattern (defaults to 0.8.*) |
 | main.multiSourceConfig.enabled | bool | `false` | Enables a multisource configuration for the clustergroup chart |

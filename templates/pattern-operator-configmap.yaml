@@ -21,6 +21,13 @@ data:
   gitops.customArgoYaml: |
 {{ .Values.main.gitops.customArgoYaml | indent 4 }}
   {{- end }}
+  {{- if .Values.main.gitops.applicationHealthCheckEnabled }}
+  gitops.applicationHealthCheckEnabled: {{ .Values.main.gitops.applicationHealthCheckEnabled | quote }}
+  {{- end }}
+  {{- if .Values.main.gitops.customHealthChecks }}
+  gitops.customHealthChecks: |
+{{ .Values.main.gitops.customHealthChecks | indent 4 }}
+  {{- end }}
 
   # gitops.sourceNamespace: GitOpsDefaultCatalogSourceNamespace
   # gitops.installApprovalPlan: GitOpsDefaultApprovalPlan
