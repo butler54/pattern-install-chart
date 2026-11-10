@@ -117,6 +117,34 @@ tests:
           path: data["gitops.applicationHealthCheckEnabled"]
           value: "true"
 
+  - it: Should accept gitops.applicationHealthCheckEnabled false
+    set:
+      main:
+        gitops:
+          applicationHealthCheckEnabled: "false"
+    asserts:
+      - equal:
+          path: data["gitops.applicationHealthCheckEnabled"]
+          value: "false"
+
+  - it: Should reject gitops.applicationHealthCheckEnabled yes
+    set:
+      main:
+        gitops:
+          applicationHealthCheckEnabled: "yes"
+    asserts:
+      - failedTemplate:
+          errorMessage: "applicationHealthCheckEnabled must be \"true\" or \"false\""
+
+  - it: Should reject gitops.applicationHealthCheckEnabled 1
+    set:
+      main:
+        gitops:
+          applicationHealthCheckEnabled: "1"
+    asserts:
+      - failedTemplate:
+          errorMessage: "applicationHealthCheckEnabled must be \"true\" or \"false\""
+
   - it: Should not include gitops.customHealthChecks by default
     asserts:
       - notExists:
@@ -187,15 +215,33 @@ tests:
           path: data["gitops.installApprovalPlan"]
           value: "Manual"
 
-  - it: Should quote gitops.installApprovalPlan to survive YAML round-trip
+  - it: Should accept gitops.installApprovalPlan Automatic
     set:
       main:
         gitops:
-          installApprovalPlan: "yes"
+          installApprovalPlan: Automatic
     asserts:
       - equal:
           path: data["gitops.installApprovalPlan"]
-          value: "yes"
+          value: "Automatic"
+
+  - it: Should reject gitops.installApprovalPlan manual (wrong case)
+    set:
+      main:
+        gitops:
+          installApprovalPlan: manual
+    asserts:
+      - failedTemplate:
+          errorMessage: "installApprovalPlan must be \"Automatic\" or \"Manual\""
+
+  - it: Should reject gitops.installApprovalPlan MANUAL (wrong case)
+    set:
+      main:
+        gitops:
+          installApprovalPlan: MANUAL
+    asserts:
+      - failedTemplate:
+          errorMessage: "installApprovalPlan must be \"Automatic\" or \"Manual\""
 
   - it: Should not include gitops.csv by default
     asserts:

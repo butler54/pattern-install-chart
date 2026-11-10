@@ -22,7 +22,11 @@ data:
 {{ .Values.main.gitops.customArgoYaml | indent 4 }}
   {{- end }}
   {{- if .Values.main.gitops.applicationHealthCheckEnabled }}
-  gitops.applicationHealthCheckEnabled: {{ .Values.main.gitops.applicationHealthCheckEnabled | quote }}
+  {{- $ahce := .Values.main.gitops.applicationHealthCheckEnabled | toString | lower }}
+  {{- if and (ne $ahce "true") (ne $ahce "false") }}
+  {{- fail "applicationHealthCheckEnabled must be \"true\" or \"false\"" }}
+  {{- end }}
+  gitops.applicationHealthCheckEnabled: {{ $ahce | quote }}
   {{- end }}
   {{- if .Values.main.gitops.customHealthChecks }}
   {{- $v := .Values.main.gitops.customHealthChecks }}
@@ -33,7 +37,11 @@ data:
   gitops.sourceNamespace: {{ .Values.main.gitops.sourceNamespace | quote }}
   {{- end }}
   {{- if .Values.main.gitops.installApprovalPlan }}
-  gitops.installApprovalPlan: {{ .Values.main.gitops.installApprovalPlan | quote }}
+  {{- $iap := .Values.main.gitops.installApprovalPlan | toString }}
+  {{- if and (ne $iap "Automatic") (ne $iap "Manual") }}
+  {{- fail "installApprovalPlan must be \"Automatic\" or \"Manual\"" }}
+  {{- end }}
+  gitops.installApprovalPlan: {{ $iap | quote }}
   {{- end }}
   {{- if .Values.main.gitops.csv }}
   gitops.csv: {{ .Values.main.gitops.csv | quote }}
