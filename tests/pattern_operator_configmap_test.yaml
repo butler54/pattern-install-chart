@@ -162,8 +162,15 @@ tests:
                 hs.status = "Healthy"
                 return hs
     asserts:
-      - exists:
+      - equal:
           path: data["gitops.customHealthChecks"]
+          value: |
+            - group: example.com
+              kind: MyKind
+              check: |
+                hs = {}
+                hs.status = "Healthy"
+                return hs
 
   - it: Should set gitops.customHealthChecks from a native YAML list
     set:
@@ -173,8 +180,11 @@ tests:
             - group: example.com
               kind: MyKind
     asserts:
-      - exists:
+      - equal:
           path: data["gitops.customHealthChecks"]
+          value: |
+            - group: example.com
+              kind: MyKind
 
   - it: Should not include gitops.sourceNamespace by default
     asserts:
