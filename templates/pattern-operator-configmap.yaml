@@ -25,17 +25,18 @@ data:
   gitops.applicationHealthCheckEnabled: {{ .Values.main.gitops.applicationHealthCheckEnabled | quote }}
   {{- end }}
   {{- if .Values.main.gitops.customHealthChecks }}
+  {{- $v := .Values.main.gitops.customHealthChecks }}
   gitops.customHealthChecks: |
-{{ .Values.main.gitops.customHealthChecks | indent 4 }}
+{{ if kindIs "string" $v }}{{ $v | indent 4 }}{{ else }}{{ toYaml $v | indent 4 }}{{ end }}
   {{- end }}
   {{- if .Values.main.gitops.sourceNamespace }}
-  gitops.sourceNamespace: {{ .Values.main.gitops.sourceNamespace }}
+  gitops.sourceNamespace: {{ .Values.main.gitops.sourceNamespace | quote }}
   {{- end }}
   {{- if .Values.main.gitops.installApprovalPlan }}
-  gitops.installApprovalPlan: {{ .Values.main.gitops.installApprovalPlan }}
+  gitops.installApprovalPlan: {{ .Values.main.gitops.installApprovalPlan | quote }}
   {{- end }}
   {{- if .Values.main.gitops.csv }}
-  gitops.csv: {{ .Values.main.gitops.csv }}
+  gitops.csv: {{ .Values.main.gitops.csv | quote }}
   {{- end }}
 
   # gitops.ManualSync: GitOpsDefaultManualSync

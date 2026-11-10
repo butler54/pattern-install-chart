@@ -122,7 +122,7 @@ tests:
       - notExists:
           path: data["gitops.customHealthChecks"]
 
-  - it: Should set gitops.customHealthChecks
+  - it: Should set gitops.customHealthChecks from a string
     set:
       main:
         gitops:
@@ -133,6 +133,17 @@ tests:
                 hs = {}
                 hs.status = "Healthy"
                 return hs
+    asserts:
+      - exists:
+          path: data["gitops.customHealthChecks"]
+
+  - it: Should set gitops.customHealthChecks from a native YAML list
+    set:
+      main:
+        gitops:
+          customHealthChecks:
+            - group: example.com
+              kind: MyKind
     asserts:
       - exists:
           path: data["gitops.customHealthChecks"]
@@ -150,7 +161,16 @@ tests:
     asserts:
       - equal:
           path: data["gitops.sourceNamespace"]
-          value: openshift-marketplace
+          value: "openshift-marketplace"
+
+  - it: Should quote gitops.sourceNamespace to survive YAML round-trip
+    set:
+      main:
+        gitops:
+          sourceNamespace: "null"
+    asserts:
+      - isNotNull:
+          path: data["gitops.sourceNamespace"]
 
   - it: Should not include gitops.installApprovalPlan by default
     asserts:
@@ -165,7 +185,17 @@ tests:
     asserts:
       - equal:
           path: data["gitops.installApprovalPlan"]
-          value: Manual
+          value: "Manual"
+
+  - it: Should quote gitops.installApprovalPlan to survive YAML round-trip
+    set:
+      main:
+        gitops:
+          installApprovalPlan: "yes"
+    asserts:
+      - equal:
+          path: data["gitops.installApprovalPlan"]
+          value: "yes"
 
   - it: Should not include gitops.csv by default
     asserts:
@@ -180,7 +210,17 @@ tests:
     asserts:
       - equal:
           path: data["gitops.csv"]
-          value: openshift-gitops-operator.v1.22.0
+          value: "openshift-gitops-operator.v1.22.0"
+
+  - it: Should quote gitops.csv to prevent float truncation
+    set:
+      main:
+        gitops:
+          csv: 1.10
+    asserts:
+      - equal:
+          path: data["gitops.csv"]
+          value: "1.1"
 
   - it: Should set gitea parameters
     set:
